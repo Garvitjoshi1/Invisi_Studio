@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/profileItem"
+            android:title="Profile" />
+        <item
+            android:id="@+id/recentsItem"
+            android:title="Recents" />
+        <item
+            android:id="@+id/appItem"
+            android:title="App" />
+        <item
+            android:id="@+id/shortcutsItem"
+            android:title="Shortcuts" />
+        <item
+            android:id="@+id/moreItem"
+            android:title="More" />
+    </group>
+    <item
+        android:id="@+id/darkModeItem"
+        android:title="Dark Mode" />
+</menu>
