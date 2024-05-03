@@ -3,6 +3,7 @@ package com.example.data_visuals
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -48,8 +49,11 @@ class LoginActivity : AppCompatActivity() {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE)
             outputStream.write(fileContents.toByteArray())
             outputStream.close()
+            Log.d("LoginActivity", "Username and password saved successfully: $username, $password")
         } catch (e: Exception) {
+            Log.e("LoginActivity", "Error saving username and password: ${e.message}")
             e.printStackTrace()
         }
     }
+
 }

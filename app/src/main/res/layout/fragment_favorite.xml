@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/containerLayout"
     android:gravity="center"
@@ -19,5 +20,30 @@
         android:orientation="vertical">
         <!-- Uploaded files will be displayed here -->
     </LinearLayout>
+
+
+
+    <!-- Button to write text to file -->
+    <Button
+        android:id="@+id/writeTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write Password" />
+
+    <!-- Button to read text from file -->
+    <Button
+        android:id="@+id/readTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read Password" />
+
+    <!-- TextView to display the text read from file -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textSize="16sp" />
 
 </LinearLayout>
