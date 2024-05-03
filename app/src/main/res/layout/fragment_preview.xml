@@ -1,66 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/containerLayout"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
-
-
-    <TextView
-        android:id="@+id/greetingTextView"
-        android:layout_width="252dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="106dp"
-        android:padding="16dp"
-        android:textColor="@color/black"
-        android:textSize="160sp" />
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/pickDateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="151dp"
         android:text="Pick Date" />
 
     <Button
         android:id="@+id/pickTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pickDateButton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="147dp"
         android:text="Pick Time" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle Alarm" />
 
     <Button
         android:id="@+id/setAlarmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pickTimeButton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="148dp"
         android:text="Set Alarm" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
+    <TextView
+        android:id="@+id/alarmStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/setAlarmButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:visibility="gone" />
+        android:text="Alarm Status: "
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/setAlarmButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:visibility="gone" />
-
-</RelativeLayout>
+</LinearLayout>

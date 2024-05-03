@@ -11,19 +11,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import java.util.*
 
 class PreviewFragment : Fragment() {
-    private lateinit var datePicker: DatePicker
-    private lateinit var timePicker: TimePicker
     private lateinit var pickDateButton: Button
     private lateinit var pickTimeButton: Button
+    private lateinit var toggleButton: ToggleButton
     private lateinit var setAlarmButton: Button
+    private lateinit var alarmStatusTextView: TextView
+    private lateinit var alarmManager: AlarmManager
+    private var pendingIntent: PendingIntent? = null
+    private var selectedDate: String = ""
+    private var selectedTime: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,101 +34,80 @@ class PreviewFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_preview, container, false)
 
-        datePicker = view.findViewById(R.id.datePicker)
-        timePicker = view.findViewById(R.id.timePicker)
         pickDateButton = view.findViewById(R.id.pickDateButton)
         pickTimeButton = view.findViewById(R.id.pickTimeButton)
+        toggleButton = view.findViewById(R.id.toggleButton)
         setAlarmButton = view.findViewById(R.id.setAlarmButton)
+        alarmStatusTextView = view.findViewById(R.id.alarmStatusTextView)
+
+        alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         pickDateButton.setOnClickListener {
-            // Show DatePickerDialog
             showDatePicker()
         }
 
         pickTimeButton.setOnClickListener {
-            // Show TimePickerDialog
             showTimePicker()
         }
 
-        setAlarmButton.setOnClickListener {
-            // Set the alarm
-            setAlarm()
+        toggleButton.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                setAlarmButton.isEnabled = true
+            } else {
+                setAlarmButton.isEnabled = false
+                cancelAlarm()
+            }
         }
 
-        // Display user details if available
-        val userDetails = arguments // Retrieve the Bundle passed from the Login Fragment
-        if (userDetails != null) {
-            displayUserDetails(userDetails)
+        setAlarmButton.setOnClickListener {
+            setAlarm()
         }
 
         return view
     }
 
     private fun showDatePicker() {
-        // Show DatePickerDialog
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
-            datePicker.updateDate(year, month, dayOfMonth)
-        }, year, month, day)
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                selectedDate = "$dayOfMonth/${month + 1}/$year"
+                pickDateButton.text = selectedDate
+            },
+            year,
+            month,
+            day
+        )
         datePickerDialog.show()
     }
 
     private fun showTimePicker() {
-        // Show TimePickerDialog
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(requireContext(), { _, hourOfDay, minute ->
-            timePicker.hour = hourOfDay
-            timePicker.minute = minute
-        }, hour, minute, true)
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                selectedTime = "$hourOfDay:$minute"
+                pickTimeButton.text = selectedTime
+            },
+            hour,
+            minute,
+            true
+        )
         timePickerDialog.show()
     }
 
     private fun setAlarm() {
-        // Get the selected date and time
-        val selectedYear = datePicker.year
-        val selectedMonth = datePicker.month
-        val selectedDayOfMonth = datePicker.dayOfMonth
-        val selectedHourOfDay = timePicker.hour
-        val selectedMinute = timePicker.minute
-
-        // Create a Calendar instance and set the selected date and time
-        val calendar = Calendar.getInstance().apply {
-            set(selectedYear, selectedMonth, selectedDayOfMonth, selectedHourOfDay, selectedMinute)
-        }
-
-        // Get the AlarmManager service
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        // Create an Intent for the BroadcastReceiver
-        val intent = Intent(requireContext(), AlarmReceiver::class.java)
-
-        // Create a PendingIntent to be triggered when the alarm goes off
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent,
-            PendingIntent.FLAG_IMMUTABLE)
-
-        // Set the alarm
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-
-        // Display a toast message showing the selected date and time
-        val message = "Alarm is set for $selectedDayOfMonth/${selectedMonth + 1}/$selectedYear at $selectedHourOfDay:$selectedMinute"
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        // Implement set alarm logic using selectedDate and selectedTime
     }
 
-    private fun getUserDetailsFromBundle(): Bundle? {
-        return arguments
-    }
-
-    private fun displayUserDetails(userDetails: Bundle) {
-        val name = userDetails.getString("username")
-        val password = userDetails.getString("password")
-        val greetingTextView: TextView = view?.findViewById(R.id.greetingTextView) ?: return
-        greetingTextView.text = "Hello $name, How are you?\nYour password is $password"
+    private fun cancelAlarm() {
+        // Implement cancel alarm logic
     }
 }
