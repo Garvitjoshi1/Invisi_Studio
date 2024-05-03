@@ -6,6 +6,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import android.view.View
+import androidx.core.view.GravityCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,6 +73,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        // Initialize sidebar icon and set up click listener
+        val sidebarIcon: View = findViewById(R.id.sidebarIcon)
+        sidebarIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 }
