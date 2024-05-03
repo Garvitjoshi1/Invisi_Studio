@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -49,6 +50,12 @@ class PreviewFragment : Fragment() {
         setAlarmButton.setOnClickListener {
             // Set the alarm
             setAlarm()
+        }
+
+        // Display user details if available
+        val userDetails = arguments // Retrieve the Bundle passed from the Login Fragment
+        if (userDetails != null) {
+            displayUserDetails(userDetails)
         }
 
         return view
@@ -109,5 +116,16 @@ class PreviewFragment : Fragment() {
         // Display a toast message showing the selected date and time
         val message = "Alarm is set for $selectedDayOfMonth/${selectedMonth + 1}/$selectedYear at $selectedHourOfDay:$selectedMinute"
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun getUserDetailsFromBundle(): Bundle? {
+        return arguments
+    }
+
+    private fun displayUserDetails(userDetails: Bundle) {
+        val name = userDetails.getString("username")
+        val password = userDetails.getString("password")
+        val greetingTextView: TextView = view?.findViewById(R.id.greetingTextView) ?: return
+        greetingTextView.text = "Hello $name, How are you?\nYour password is $password"
     }
 }
