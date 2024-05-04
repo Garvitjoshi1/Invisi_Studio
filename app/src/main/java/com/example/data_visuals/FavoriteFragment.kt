@@ -35,7 +35,6 @@ class FavoriteFragment : Fragment() {
             openFilePicker()
         }
 
-
         // Button to read text
         val readTextButton: Button = view.findViewById(R.id.readTextButton)
         val textView: TextView = view.findViewById(R.id.textView)
